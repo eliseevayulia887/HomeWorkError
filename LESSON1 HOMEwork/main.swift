@@ -1,190 +1,246 @@
-//
-//  main.swift
-//  LESSON1 HOMEwork
-//
-//  Created by Олег Елисеев on 21.09.2023.
-//
-
-/*1. Описать несколько структур – любой легковой автомобиль SportCar и любой грузовик TrunkCar.
-2. Структуры должны содержать марку авто, год выпуска, объем багажника/кузова, запущен ли двигатель, открыты ли окна, заполненный объем багажника.
-3. Описать перечисление с возможными действиями с автомобилем: запустить/заглушить двигатель, открыть/закрыть окна, погрузить/выгрузить из кузова/багажника груз определенного объема.
-4. Добавить в структуры метод с одним аргументом типа перечисления, который будет менять свойства структуры в зависимости от действия.
-5. Инициализировать несколько экземпляров структур. Применить к ним различные действия.
-6. Вывести значения свойств экземпляров в консоль.
-
-1. Описать класс Car c общими свойствами автомобилей и пустым методом действия по аналогии с прошлым заданием.
-2. Описать пару его наследников TrunkCar и SportCar. Подумать, какими отличительными свойствами обладают эти автомобили. Описать в каждом наследнике специфичные для него свойства.
-3. Взять из прошлого урока enum с действиями над автомобилем. Подумать, какие особенные действия имеет TrunkCar, а какие – SportCar. Добавить эти действия в перечисление.
-4. В каждом подклассе переопределить метод действия с автомобилем в соответствии с его классом.
-5. Создать несколько объектов каждого класса. Применить к ним различные действия.
-6. Вывести значения свойств экземпляров в консоль.*/
-
-
 //1
 
-enum engineState {
-     case start, stop
- }
+/*class Weapon {
+    var nameWeapon: String
+    var owner: Fighter?
 
- enum AreWindowsOpen {
-     case open, close
- }
- enum trunkState {
-     case full, empty
- }
- struct car {
-     let brandAuto : String
-     var color : String
-     mutating func changeColor(c:String) {
-         switch c {
-         case "white":
-             self.color = "white"
-         case "black":
-             self.color = "black"
-         case "gray":
-             self.color = "gray"
-         default:
-             print("Input error.")
-         }
-     }
-     let yearOfManufacture : Int
-     var trunkVolume : Double {
-         willSet {
-             if (trunkState == .empty) && (trunkVolume > 0) && (trunkVolume != 0) && (newValue < trunkVolume) {
-                 let space = trunkVolume - newValue
-                 print ("\(brandAuto) trunk free: \(space)")
-             } else { print("Input error or \(brandAuto) trunk is full.")}
-         }
-     }
-     var engineState : engineState {
-         willSet {
-             if newValue == .start {
-                 print ("\(brandAuto) engine is on")
-             } else {print("\(brandAuto) engine is off")}
-         }
-     }
-     var AreWindowsOpen : AreWindowsOpen {
-         willSet {
-             if newValue == .open {
-                 print("\(brandAuto) windows are open")
-             } else { print("\(brandAuto) windows are close") }
-         }
-     }
-     var trunkState : trunkState
-     mutating func emptyTrunck() {
-         self.trunkState = .empty
-         print ("\(brandAuto) trunck is empty")
-     }
- }
-
- struct truck {
-     let brandTruck : String
-     var color : String
-     mutating func changeColor(c:String) {
-         switch c {
-         case "white":
-             self.color = "white"
-         case "black":
-             self.color = "black"
-         case "red":
-             self.color = "red"
-         default:
-             print("Input error.")
-         }
-     }
-     let yearOfManufacture : Int
-     var truckVolume : Double {
-         willSet {
-             if (trunkState == .empty) && (truckVolume > 0) && (truckVolume != 0) && (newValue < truckVolume) {
-                 let space = truckVolume - newValue
-                 print ("\(brandTruck) trunk free: \(space)")
-             } else { print("Input error or \(brandTruck) trunk is full.")}
-         }
-     }
-     var engineState : engineState {
-         willSet {
-             if newValue == .start {
-                 print ("\(brandTruck) engine is on")
-             } else {print("\(brandTruck) engine is off")}
-         }
-     }
-     var AreWindowsOpen : AreWindowsOpen {
-         willSet {
-             if newValue == .open {
-                 print("\(brandTruck) windows are open")
-             } else { print("\(brandTruck) windows are close") }
-         }
-     }
-     var trunkState : trunkState
-     mutating func emptyTrunck() {
-         self.trunkState = .empty
-         print ("\(brandTruck) trunck is empty")
-     }
- }
-
- var car1 = car(brandAuto: "infiniti",  color: "clear", yearOfManufacture: 2018, trunkVolume: 580.0 , engineState: .stop, AreWindowsOpen: .open, trunkState: .empty)
- 
-
- var truck1 = truck(brandTruck: "Chevrolet",  color: "clear", yearOfManufacture: 2013, truckVolume: 15000.0, engineState: .start, AreWindowsOpen: .close, trunkState: .empty)
-
-
- car1.engineState = .start
- car1.trunkVolume = 580.0
- car1.changeColor(c: "red")
-
- truck1.engineState = .stop
- truck1.AreWindowsOpen = .close
-
-
-//1
-
-enum nitro{
-    case nitroOn
-    case nitroOff
-}
-enum luggage{
-    case trunkIsFull
-    case TrunkIsEmpty
-}
-class Car{
-    var brand: String
-    var release: Int
-    init(brand: String, release: Int){
-        self.brand = brand
-        self.release = release
+init(nameWeapon: String) {
+    self.nameWeapon = nameWeapon
+    self.owner = nil
     }
 }
-class trunkCar: Car{
-    var trunk: luggage
-    init(brand: String, release: Int, trunk: luggage){
-        self.trunk = trunk
-        super.init(brand: brand, release: release)
+
+class Fighter {
+    var name: String
+    
+    init(name: String) {
+        self.name = name
     }
-    func trunkState(){
-        if trunk == .trunkIsFull {
-            print("Багажник полон")
-        } else{
-            print("Багажник пуст")
+}
+
+let fighter1 = Fighter(name: "winter wyvern")
+let fighter2 = Fighter(name: "magnus")
+
+let weapon = Weapon(nameWeapon: "огонь")
+weapon.owner = fighter1
+
+print(weapon.owner?.name)
+
+weapon.owner = fighter2
+
+print(weapon.owner?.name)
+
+weapon.owner = nil
+
+print(weapon.owner?.name)*/
+
+
+//2
+
+/*class Fighter {
+    var name: String
+    var type: String
+    var weapon: String
+    var health: Int
+    var strength: Int
+    
+    init(name: String, type: String, weapon: String, health: Int, strength: Int) {
+        self.name = name
+        self.type = type
+        self.weapon = weapon
+        self.health = health
+        self.strength = strength
+    }
+    
+    func reduceDamage(damage: Int) {
+        health -= damage
+        if health < 0 {
+            health = 0
         }
+        print("\(name) получил урон. Текущее здоровье: \(health)")
     }
-}
-class sportCar: Car{
-    var goFast: nitro
-    init(brand: String, release: Int, goFast: nitro){
-        self.goFast = goFast
-        super.init(brand: brand, release: release)
+    
+    func attack() {
+        print("\(name) атакует с использованием \(weapon).")
     }
-    func nitroState(){
-        if goFast == .nitroOn {
-            print("sports car goes fasters")
-        } else{
-            print("sports car goes lower ")
-        }
+    
+    func balanceHP() {
+        print("\(name) имеет \(health) здоровья.")
+    }
+    
+    func isDead() -> Bool {
+        return health <= 0
     }
 }
 
-let truck1000 = trunkCar(brand: "Chevrolet", release: 2013, trunk: .trunkIsFull)
-truck1000.trunkState()
 
-let mitsubisi = sportCar(brand: "mitsubisi", release: 2019, goFast: .nitroOn)
-mitsubisi.nitroState()
+let fighter1 = Fighter(name: "Боец 1", type: "Тор", weapon: "Молот", health: 90, strength: 50)
+let fighter2 = Fighter(name: "Боец 2", type: "Лучник", weapon: "Лук", health: 75, strength: 20)
+
+fighter1.attack()
+fighter1.reduceDamage(damage: fighter2.strength)
+fighter1.balanceHP()
+
+
+fighter2.attack()
+fighter2.reduceDamage(damage: fighter1.strength)
+fighter2.balanceHP()
+
+
+print("Боец 1 жив? \(fighter1.isDead() ? "Нет" : "Да")")
+print("Боец 2 жив? \(fighter2.isDead() ? "Нет" : "Да")")*/
+
+
+//3
+
+
+/*class Fighter {
+    var name: String
+    var health: Int
+    var strength: Int
+
+    init(name: String, health: Int, strength: Int) {
+        self.name = name
+        self.health = health
+        self.strength = strength
+    }
+
+    func attack() {
+        print("\(name) атакует!")
+    }
+}
+
+// Подкласс Warrior
+class Warrior: Fighter {
+    var shieldStrength: Int
+
+    init(name: String, health: Int, strength: Int, shieldStrength: Int) {
+        self.shieldStrength = shieldStrength
+        super.init(name: name, health: health, strength: strength)
+    }
+
+    func shieldBash() {
+        print("\(name) использует удар щитом!")
+    }
+}
+
+// Подкласс Mag
+class Mag: Fighter {
+    var spellPower: Int
+
+    init(name: String, health: Int, strength: Int, spellPower: Int) {
+        self.spellPower = spellPower
+        super.init(name: name, health: health, strength: strength)
+    }
+
+    func castSpell() {
+        print("\(name) использует заклинание!")
+    }
+}
+
+let warrior = Warrior(name: "Воин", health: 100, strength: 20, shieldStrength: 10)
+let mag = Mag(name: "Маг", health: 80, strength: 15, spellPower: 30)
+
+warrior.attack()
+warrior.shieldBash()
+
+mag.attack()
+mag.castSpell()
+
+
+//4
+
+struct Person: Hashable {
+    var name: String
+    var age: Int
+}
+
+let person1 = Person(name: "John", age: 25)
+let person2 = Person(name: "Jane", age: 30)
+
+
+var peopleDictionary: [Person: String] = [:]
+peopleDictionary[person1] = "Friend"
+peopleDictionary[person2] = "Colleague"
+
+
+for (person, relationship) in peopleDictionary {
+    print("\(person.name) is a \(relationship)")
+}
+
+//5
+
+protocol PeopleProtocol {
+    var name: String { get }
+    var age: Int { get }
+    func introduce() -> String
+}
+
+protocol DefenseProtocol {
+    var defensePower: Int { get }
+    func defend() -> String
+}
+
+
+protocol FighterProtocol {
+    var attackPower: Int { get }
+    func attack() -> String
+}
+
+
+protocol AttackProtocol {
+    var damage: Int { get }
+    func performAttack() -> String
+}*/
+
+//6
+
+protocol Character {
+    func introduce()
+    func attack()
+}
+
+struct People: Character {
+    func introduce() {
+        print("I am a regular person.")
+    }
+    
+    func attack() {
+        print("I can't attack.")
+    }
+}
+
+struct Warrior: Character {
+    func introduce() {
+        print("I am a warrior.")
+    }
+    
+    func attack() {
+        print("I swing my sword to attack.")
+    }
+}
+
+struct Mag: Character {
+    func introduce() {
+        print("I am a mage.")
+    }
+    
+    func attack() {
+        print("I cast a spell to attack.")
+    }
+}
+
+let person = People()
+let warrior = Warrior()
+let mage = Mag()
+
+person.introduce()
+person.attack()
+
+warrior.introduce()
+warrior.attack()
+
+mage.introduce()
+mage.attack()
+
+
